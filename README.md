@@ -15,3 +15,4 @@ restart the server on file changes
 ```
 npm install --save-dev nodemon
 ```
+References: https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md
