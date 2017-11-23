@@ -20,8 +20,11 @@
   "devDependencies": {
     "nodemon": "^1.12.1"
   },
-  "nodemonConfig": {
+  "nodemonConfig": { // reference: https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md
     "restartable": "rs",
+    "delay": 2500,
+    "verbose": true,
+    "ext": "js json mjs bbjs",
     "ignore": [
       "node_modules/*",
       "public/*",
@@ -29,11 +32,9 @@
       "*.md",
       "LICENSE"
     ],
-    "verbose": true,
     "env": {
       "NODE_ENV": "development",
       "DEBUG": "json2proprietary-web-repl:*"
-    },
-    "ext": "js json"
+    }
   }
 }
