@@ -6,5 +6,12 @@ Use the Express Application Generator to initialize the skeleton of the web-site
 ```
 npm install express-generator -g
 express -v hbs -c sass --git --force
+npm install
+SET DEBUG=json2proprietary-web-repl:* & npm start
 ```
+Open the web browser and access http://localhost:3000/
 
+restart the server on file changes
+```
+npm install --save-dev nodemon
+```

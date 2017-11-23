@@ -2,8 +2,10 @@
   "name": "json2proprietary-web-repl",
   "version": "0.0.0",
   "private": true,
+  "main": "./bin/www",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "devstart": "nodemon --inspect-brk"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -14,5 +16,24 @@
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.9.8",
     "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/*",
+      "public/*",
+      "*.json",
+      "*.md",
+      "LICENSE"
+    ],
+    "verbose": true,
+    "env": {
+      "NODE_ENV": "development",
+      "DEBUG": "json2proprietary-web-repl:*"
+    },
+    "ext": "js json"
   }
 }

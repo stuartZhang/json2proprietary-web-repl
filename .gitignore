@@ -28,3 +28,7 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
+
+# Generated CSS and source map
+public/stylesheets/*.css
+public/stylesheets/*.css.map
