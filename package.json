@@ -7,6 +7,10 @@
     "start": "node ./bin/www",
     "devstart": "nodemon --inspect"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stuartZhang/json2proprietary-web-repl.git"
+  },
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
