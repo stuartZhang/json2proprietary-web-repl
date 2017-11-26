@@ -13,6 +13,9 @@
       "PORT": "3001",
       "NODE_ENV": "development",
       "DEBUG": "json2proprietary-web-repl:*"
-    }
+    },
+    "runtimeArgs": [
+      "--preserve-symlinks"
+    ]
   }]
 }
