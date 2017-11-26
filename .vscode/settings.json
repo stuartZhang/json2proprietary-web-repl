@@ -2,6 +2,10 @@
   "files.associations": {
     "*.bjs": "javascript"
   },
+  "files.exclude": {
+    "node_modules/[^e]*": true,
+    "node_modules/?[^x]*": true
+  },
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
