@@ -32,3 +32,6 @@ npm-debug.log
 # Generated CSS and source map
 public/stylesheets/*.css
 public/stylesheets/*.css.map
+# Generated JS and source map
+public/javascripts/*-es5.js
+public/javascripts/*-es5.js.map

@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const rollupMiddleware  = require('express-middleware-rollup');
 const babelPlugin = require('rollup-plugin-babel');
-const fs = require('fs');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -31,6 +30,7 @@ app.use(sassMiddleware({
 }));
 app.use('/javascripts', rollupMiddleware({
   src: 'public',
+  destExtension: /-es5\.js$/,
   bundleExtension: '.bjs',
   // rebuild: 'always',
   root: __dirname,
