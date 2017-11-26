@@ -1,0 +1,56 @@
+<article>
+  <form name="query" onsubmit="return false;">
+    <h1>JSON Request to LBS</h1>
+    <h2>Iden</h2>
+    <textarea name="iden" cols="100" rows="10">{
+      "iden": {
+        "ip-address": "192.168.84.233",
+        "client-guid": "dc5b30a4ff374279802a06b26cef9b7",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36",
+        "language": "zh-cn",
+        "credential": "PrMkzpTrr4urjZpmG0S36Ghmu/dcLUucuXjR8ZAO",
+        "mdn": 9999990012
+      }
+    }</textarea>
+    <h2>Payload</h2>
+    <textarea name="payload" cols="100" rows="10">{
+      "query": {
+        "geocode-query": {
+          "search-filter": {
+            "pair": [{
+              "key": "language",
+              "value": "zh-CN"
+            }]
+          },
+          "address": {
+            "city": "",
+            "freeform": "NanKai district",
+            "country": "CHN",
+            "state": "",
+            "county": "",
+            "airport": "",
+            "str": "",
+            "xstr": "",
+            "sa": "",
+            "postal": "",
+            "type": "freeform"
+          },
+          "sliceres": {
+            "total": 10,
+            "start": 0,
+            "end": 10
+          },
+          "routeable": {}
+        }
+      }
+    }</textarea>
+    <div><button type="button" name="send">Send</button></div>
+  </form>
+</article>
+<article>
+  <h1>JSON Response from LBS</h1>
+  <textarea id="res" cols="100" rows="10">Upcoming</textarea>
+</article>
+<script src="javascripts/externals/polyfill.min.js"></script>
+<script src="javascripts/externals/babel-helpers.js"></script>
+<script src="javascripts/repl-es5.js"></script>
