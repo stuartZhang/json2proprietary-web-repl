@@ -16,3 +16,9 @@ restart the server on file changes
 npm install --save-dev nodemon
 ```
 References: https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md
+
+# Manually Dependencies Import
+Git Clone: https://github.com/stuartZhang/express-middleware-rollup.git
+  `npm link`
+Go back: https://github.com/stuartZhang/json2proprietary.git
+  `npm link express-middleware-rollup`

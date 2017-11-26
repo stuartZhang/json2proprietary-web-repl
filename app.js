@@ -5,7 +5,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
-const babelifyMiddle = require('express-babelify-middleware');
+const rollupMiddleware  = require('express-middleware-rollup');
+const babelPlugin = require('rollup-plugin-babel');
 const fs = require('fs');
 
 const index = require('./routes/index');
@@ -28,11 +29,21 @@ app.use(sassMiddleware({
   indentedSyntax: true, // true = .sass and false = .scss
   sourceMap: true
 }));
-// See also: https://github.com/luisfarzati/express-babelify-middleware
-app.get('/javascripts/repl.js', babelifyMiddle('public/javascripts/repl.bjs', {
-  basedir: path.join(__dirname, 'public/javascripts'),
-  grep: /\.bjs$/
-}, JSON.parse(fs.readFileSync('./.babelrc'))));
+app.use('/javascripts', rollupMiddleware({
+  src: 'public',
+  bundleExtension: '.bjs',
+  // rebuild: 'always',
+  root: __dirname,
+  bundleOpts: {
+    sourceMap: 'inline'
+  },
+  rollupOpts: {
+    plugins: [babelPlugin({ // .babelrc 自动装载
+      externalHelpers: true,
+      exclude: 'node_modules/**'
+    })]
+  }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
