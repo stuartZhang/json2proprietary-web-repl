@@ -1,7 +1,3 @@
-const params = [9, 2];
-const [log] = params;
-console.log('test', log);
-
 const btnSend = document.querySelector('form[name=query] button[name=send]');
 const txtIden = document.querySelector('form[name=query] textarea[name=iden]');
 const txtPayload = document.querySelector('form[name=query] textarea[name=payload]');
