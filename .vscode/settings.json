@@ -3,8 +3,13 @@
     "*.bjs": "javascript"
   },
   "files.exclude": {
-    "node_modules/[^e]*": true,
-    "node_modules/?[^x]*": true
+    "node_modules/.bin": true,
+    "node_modules/[abcdfghijkmnopqrstuvwxy]*": true,
+    "node_modules/e[celnrstv]*": true,
+    "node_modules/ex[et]*": true,
+    "node_modules/exp[a]*": true,
+    "node_modules/express": true,
+    "node_modules/l[acor]*": true
   },
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,

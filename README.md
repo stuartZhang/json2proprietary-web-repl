@@ -22,3 +22,7 @@ Git Clone: https://github.com/stuartZhang/express-middleware-rollup.git
   `npm link`
 Go back: https://github.com/stuartZhang/json2proprietary.git
   `npm link express-middleware-rollup`
+Git Clone: https://github.com/stuartZhang/json2proprietary.git
+  `npm link`
+Go back: https://github.com/stuartZhang/json2proprietary.git
+  `npm link lbs-connect-driver`
