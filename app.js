@@ -31,7 +31,7 @@ app.use('/stylesheets', sassMiddleware({
 app.use('/javascripts', rollupMiddleware({
   src: 'public',
   destExtension: /-es5\.js$/,
-  bundleExtension: '.bjs',
+  bundleExtension: '.mjs',
   // rebuild: 'always',
   root: __dirname,
   bundleOpts: {
