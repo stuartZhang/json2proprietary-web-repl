@@ -4,6 +4,7 @@
   "private": true,
   "main": "./bin/www",
   "scripts": {
+    "postinstall": "npm link express-middleware-rollup lbs-connect-driver",
     "start": "node ./bin/www",
     "devstart": "nodemon --inspect",
     "babel-helpers": "babel-external-helpers -t global > public/javascripts/externals/babel-helpers.js"
