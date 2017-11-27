@@ -1,15 +1,10 @@
 const express = require('express');
+const {render} = require('../utils');
 const tpsConnect = require('lbs-connect-driver');
-const router = express.Router();
-
+const router = module.exports = express.Router();
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-router.route('/lbs-api-repl').get((req, res) => {
-  res.render('lbs_api_repl');
-}).post(async (req, res, next) => {
+router.get('/', render('index', {title: 'Express'}));
+router.route('/lbs-api-repl').get(render('lbs_api_repl')).post(async (req, res, next) => {
   try {
     if (req.body.iden && req.body.payload) {
       const response = await tpsConnect(req.body.iden, req.body.payload);
@@ -21,5 +16,3 @@ router.route('/lbs-api-repl').get((req, res) => {
     next(err);
   }
 });
-
-module.exports = router;
