@@ -3,6 +3,7 @@ const txtIden = document.querySelector('form[name=query] textarea[name=iden]');
 const txtPayload = document.querySelector('form[name=query] textarea[name=payload]');
 const txtRes = document.querySelector('textarea#res');
 btnSend.addEventListener('click', async () => {
+  txtRes.value = 'Upcoming...';
   const res = await fetch('/lbs-api-repl', {
     method: 'POST',
     headers: new Headers({
