@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const rollupMiddleware  = require('express-middleware-rollup');
-const babelPlugin = require('rollup-plugin-babel');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -36,12 +35,6 @@ app.use('/javascripts', rollupMiddleware({
   root: __dirname,
   bundleOpts: {
     sourceMap: 'inline'
-  },
-  rollupOpts: {
-    plugins: [babelPlugin({ // .babelrc 自动装载
-      externalHelpers: true,
-      exclude: 'node_modules/**'
-    })]
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
