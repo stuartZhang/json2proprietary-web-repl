@@ -5,7 +5,8 @@
   "main": "./bin/www",
   "scripts": {
     "postinstall": "npm link express-middleware-rollup lbs-connect-driver",
-    "start": "node ./bin/www",
+    "start": "forever start ./bin/www",
+    "stop": "forever stop ./bin/www",
     "devstart": "nodemon --inspect",
     "babel-helpers": "babel-external-helpers -t global > public/javascripts/externals/babel-helpers.js"
   },
@@ -30,8 +31,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
-    "nodemon": "^1.12.1",
-    "rollup-plugin-babel": "^3.0.2"
+    "nodemon": "^1.12.1"
   },
   "nodemonConfig": {
     "restartable": "rs",
