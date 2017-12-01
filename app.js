@@ -8,14 +8,15 @@ const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
 const rollupMiddleware  = require('express-middleware-rollup');
 
+const tmplEngine = require('./utils/template-engine');
 const index = require('./routes/index');
 const users = require('./routes/users');
 
 const app = express();
-
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+tmplEngine(app);
 
 app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
 app.use(logger('dev'));

@@ -3,8 +3,12 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    {{{block "css_import"}}}
   </head>
   <body>
     {{{body}}}
+    <script src="javascripts/externals/polyfill.min.js"></script>
+    <script src="javascripts/externals/babel-helpers.js"></script>
+    {{{block "js_import"}}}
   </body>
 </html>
