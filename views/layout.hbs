@@ -2,13 +2,20 @@
 <html>
   <head>
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/externals/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/externals/bootstrap-reboot.css' />
+    <link rel='stylesheet' href='/stylesheets/externals/bootstrap-grid.css' />
     {{{block "css_import"}}}
   </head>
   <body>
     {{{body}}}
     <script src="javascripts/externals/polyfill.min.js"></script>
     <script src="javascripts/externals/babel-helpers.js"></script>
+    <script src="javascripts/externals/jquery-3.2.1.js"></script>
+    <script src="javascripts/externals/popper-utils-1.12.9.js"></script>
+    <script src="javascripts/externals/popper-1.12.9.js"></script>
+    <script src="javascripts/externals/bootstrap.bundle.js"></script>
+    <script src="javascripts/externals/bootstrap.js"></script>
     {{{block "js_import"}}}
   </body>
 </html>

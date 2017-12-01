@@ -1,3 +1,6 @@
+{{#extend "js_import"}}
+  <script src="javascripts/repl-es5.js"></script>
+{{/extend}}
 <article>
   <form name="query" onsubmit="return false;">
     <h1>JSON Request to LBS</h1>
@@ -51,6 +54,4 @@
   <h1>JSON Response from LBS</h1>
   <textarea id="res" cols="100" rows="10">Upcoming</textarea>
 </article>
-{{#extend "js_import"}}
-  <script src="javascripts/repl-es5.js"></script>
-{{/extend}}
+

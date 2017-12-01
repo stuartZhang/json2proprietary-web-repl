@@ -4,7 +4,7 @@ const tpsConnect = require('lbs-connect-driver');
 const router = module.exports = express.Router();
 /* GET home page. */
 router.get('/', render('index', {title: 'Express'}));
-router.route('/lbs-api-repl').get(render('lbs_api_repl')).post(safe(async (req, res) => {
+router.route('/lbs-api-repl').get(render('lbs_api_repl', {title: 'NavServer Interface'})).post(safe(async (req, res) => {
   const {iden, payload} = req.body;
   if (iden && payload) {
     const response = await tpsConnect(iden, payload);
