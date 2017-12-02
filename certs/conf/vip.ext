@@ -5,7 +5,7 @@ keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 
 [alt_names]
-# example：192.168.85.154
+# 例子：192.168.85.154
 IP.1 = ${ENV::TLS_SITE_HOST_IP}
-# example：dev.local
+# 例子：dev.local
 # DNS.1 = <域名>
