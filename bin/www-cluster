@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+const cluster = require('cluster');
+if (cluster.isMaster) {
+  const os = require('os');
+  const debug = require('debug');
+  const gLogger = {
+    init: debug('cluster-init'),
+    cluster: debug('cluster')
+  };
+  gLogger.init("master start...");
+  cluster.on('listening', (worker,address) => {
+    gLogger.init('listening: worker ( pid', worker.process.pid, '/ id', worker.id, '); Port:', address.port);
+  }).on('exit', (worker, code, signal) => {
+    gLogger.cluster('worker pid', worker.process.pid, '/ id', worker.id,' died with', code, 'and', signal);
+    cluster.fork();
+  });
+  for (let i = 0; i < os.cpus().length; i++) {
+    cluster.fork();
+  }
+} else {
+  require('./www');
+}

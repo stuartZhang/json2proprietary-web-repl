@@ -1,6 +1,6 @@
 {
   "files.associations": {
-    "*.bjs": "javascript"
+    "www-cluster": "javascript"
   },
   "files.exclude": {
     "node_modules/.bin": true,

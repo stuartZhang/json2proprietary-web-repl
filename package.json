@@ -7,6 +7,8 @@
     "postinstall": "npm link express-middleware-rollup lbs-connect-driver",
     "start": "forever start ./bin/www",
     "stop": "forever stop ./bin/www",
+    "cluster-start": "forever start ./bin/www-cluster",
+    "cluster-stop": "forever stop ./bin/www-cluster",
     "devstart": "nodemon --inspect",
     "babel-helpers": "babel-external-helpers -t global > public/javascripts/externals/babel-helpers.js"
   },
