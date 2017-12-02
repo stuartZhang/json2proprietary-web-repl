@@ -1,0 +1,15 @@
+# server_rootCA.csr.cnf
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=CN
+ST=TianJin
+L=TianJin
+O=AMO
+OU=WEB
+emailAddress=stuartpage@qq.com
+CN = ${ENV::TLS_SITE_HOST_IP}
