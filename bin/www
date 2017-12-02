@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
-
 const app = require('../app');
 const debug = require('debug')('json2proprietary-web-repl:server');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const {getLocalIps} = require('../utils');
+/**
+ * Get Ip address for the https certs sub directory.
+ */
+const ips = getLocalIps();
+const certDirName = fs.readdirSync(path.resolve(__dirname, '../certs')).find(filename => ips.includes(filename));
 /**
  * Get port from environment and store in Express.
  */
@@ -18,8 +22,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = https.createServer({
-  key: fs.readFileSync(path.resolve(__dirname, '../certs/192.168.1.114/server.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, '../certs/192.168.1.114/server.crt'))
+  key: fs.readFileSync(path.resolve(__dirname, `../certs/${certDirName}/server.key`)),
+  cert: fs.readFileSync(path.resolve(__dirname, `../certs/${certDirName}/server.crt`))
 }, app);
 /**
  * Listen on provided port, on all network interfaces.
@@ -31,7 +35,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -53,7 +57,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -75,9 +79,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `host ${certDirName}:${addr.port}`;
+  debug(`Listening on ${bind}`);
 }
