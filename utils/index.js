@@ -36,5 +36,11 @@ _.extendOwn(exports, {
       }
     }
     return ips.filter(ip => _.isString(ip) && !_.isEmpty(ip));
+  },
+  getHostname(){
+    if (process.env.USERDOMAIN) {
+      return `${os.hostname()}.${process.env.USERDOMAIN}`;
+    }
+    return os.hostname();
   }
 });

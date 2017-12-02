@@ -7,11 +7,11 @@ const debug = require('debug')('json2proprietary-web-repl:server');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const {getLocalIps} = require('../utils');
+const {getLocalIps, getHostname} = require('../utils');
 /**
  * Get Ip address for the https certs sub directory.
  */
-const ips = getLocalIps();
+const ips = [...getLocalIps(), getHostname(), process.env.HTTPS_CERT_NAME || '--UNKNOWN--'];
 const certDirName = fs.readdirSync(path.resolve(__dirname, '../certs')).find(filename => ips.includes(filename));
 /**
  * Get port from environment and store in Express.
