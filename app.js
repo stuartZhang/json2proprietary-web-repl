@@ -27,7 +27,7 @@ app.get('/stylesheets/*.sass', (req, res, next) => next(_.extendOwn(new Error('N
 app.use('/stylesheets', sassMiddleware({
   root: __dirname,
   src: 'public/stylesheets',
-  indentedSyntax: true, // true = .sass and false = .scss
+  indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }));
 app.use('/javascripts', rollupMiddleware({
