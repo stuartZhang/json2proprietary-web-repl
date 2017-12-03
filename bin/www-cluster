@@ -2,7 +2,7 @@
 const sticky = require('sticky-cluster');
 const {normalizePort} = require('../utils');
 const port = normalizePort(process.env.PORT || '3000');
-sticky((cb) => cb(require('./www')), {
+sticky(cb => require('./www')(port).then(cb), {
   port,
   debug: process.env.NODE_ENV === 'development'
 });

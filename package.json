@@ -17,10 +17,12 @@
     "url": "https://github.com/stuartZhang/json2proprietary-web-repl.git"
   },
   "dependencies": {
+    "argparse": "^1.0.9",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "fs-promise": "^2.0.3",
     "hbs": "~4.0.1",
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.9.8",

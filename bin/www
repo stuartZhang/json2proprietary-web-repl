@@ -1,54 +1,52 @@
 #!/usr/bin/env node
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
 const cluster = require('cluster');
-//
+
 const {getLocalIps, getHostname, debug, normalizePort} = require('../utils');
-const app = require('../app');
-/**
- * Get Ip address for the https certs sub directory.
- */
-const log = debug('server');
-const ips = [getHostname(), process.env.HTTPS_CERT_NAME || '--UNKNOWN--', ...getLocalIps()];
-const certDirName = fs.readdirSync(path.resolve(__dirname, '../certs')).find(filename => ips.includes(filename));
-/**
- * Get port from environment and store in Express.
- */
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-/**
- * Create HTTP server.
- */
-const server = module.exports = https.createServer({
-  key: fs.readFileSync(path.resolve(__dirname, `../certs/${certDirName}/server.key`)),
-  cert: fs.readFileSync(path.resolve(__dirname, `../certs/${certDirName}/server.crt`))
-}, app).on('listening', () => { // Event listener for HTTP server "listening" event.
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `host https://${certDirName}:${addr.port}`;
-  log(`Listening on ${bind}`);
-}).on('error', (error) => { // Event listener for HTTP server "error" event.
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-  case 'EACCES':
-    console.error(bind + ' requires elevated privileges');
-    process.exit(1);
-    break;
-  case 'EADDRINUSE':
-    console.error(bind + ' is already in use');
-    process.exit(1);
-    break;
-  default:
-    throw error;
-  }
-});
+
+module.exports = async function serverBuilder(port){
+  const https = require('https');
+  const fs = require('fs-promise');
+  const path = require('path');
+
+  const appBuilder = require('../app');
+
+  // Get Ip address for the https certs sub directory.
+  const ips = [getHostname(), process.env.HTTPS_CERT_NAME || '--UNKNOWN--', ...getLocalIps()];
+  const certDirName = (await fs.readdir(path.resolve(__dirname, '../certs'))).find(filename => ips.includes(filename));
+  const [key, cert] = await Promise.all([
+    fs.readFile(path.resolve(__dirname, `../certs/${certDirName}/server.key`)),
+    fs.readFile(path.resolve(__dirname, `../certs/${certDirName}/server.crt`))
+  ]);
+  const log = debug('server');
+  // Create HTTP server.
+  const server = https.createServer({key, cert}, appBuilder(port));
+  return server.on('listening', () => { // Event listener for HTTP server "listening" event.
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? `pipe ${addr}` : `host https://${certDirName}:${addr.port}`;
+    log(`Listening on ${bind}`);
+  }).on('error', (error) => { // Event listener for HTTP server "error" event.
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+    }
+  });
+};
 if (cluster.isMaster) {
-  /**
-   * Listen on provided port, on all network interfaces.
-   */
-  server.listen(port);
+  // Get port from environment and store in Express.
+  const port = normalizePort(process.env.PORT || '3000');
+  // Listen on provided port, on all network interfaces.
+  module.exports(port).then(server => server.listen(port));
 }
