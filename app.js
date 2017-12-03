@@ -1,20 +1,20 @@
-module.exports = function appBuilder(port){
-  const _ = require('underscore');
-  const express = require('express');
-  const path = require('path');
-  const favicon = require('serve-favicon');
-  const logger = require('morgan');
-  const cookieParser = require('cookie-parser');
-  const bodyParser = require('body-parser');
-  const sassMiddleware = require('node-sass-middleware');
-  const rollupMiddleware  = require('express-middleware-rollup');
+const _ = require('underscore');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const sassMiddleware = require('node-sass-middleware');
+const rollupMiddleware  = require('express-middleware-rollup');
 
-  const tmplEngine = require('./utils/template-engine');
-  const index = require('./routes/index');
-  const users = require('./routes/users');
+const tmplEngine = require('./utils/template-engine');
+const index = require('./routes/index');
+const users = require('./routes/users');
 
+module.exports = function appBuilder(cliArgs){
   const app = express();
-  app.set('port', port);
+  app.set('port', cliArgs.port);
   // view engine setup
   app.set('view engine', 'hbs');
   app.set('views', path.join(__dirname, 'views'));

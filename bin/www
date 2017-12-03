@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 const cluster = require('cluster');
-
-const {getLocalIps, getHostname, debug, normalizePort} = require('../utils');
-
-module.exports = async function serverBuilder(port){
+const {getLocalIps, getHostname, debug, buildCliArgs} = require('../utils');
+async function serverBuilder(cliArgs){
   const https = require('https');
   const fs = require('fs-promise');
   const path = require('path');
 
   const appBuilder = require('../app');
-
   // Get Ip address for the https certs sub directory.
-  const ips = [getHostname(), process.env.HTTPS_CERT_NAME || '--UNKNOWN--', ...getLocalIps()];
+  const ips = [getHostname(), ...getLocalIps()];
+  if (cliArgs.certName) {
+    ips.unshift(cliArgs.certName);
+  }
   const certDirName = (await fs.readdir(path.resolve(__dirname, '../certs'))).find(filename => ips.includes(filename));
   const [key, cert] = await Promise.all([
     fs.readFile(path.resolve(__dirname, `../certs/${certDirName}/server.key`)),
@@ -19,7 +19,7 @@ module.exports = async function serverBuilder(port){
   ]);
   const log = debug('server');
   // Create HTTP server.
-  const server = https.createServer({key, cert}, appBuilder(port));
+  const server = https.createServer({key, cert}, appBuilder(cliArgs));
   return server.on('listening', () => { // Event listener for HTTP server "listening" event.
     const addr = server.address();
     const bind = typeof addr === 'string' ? `pipe ${addr}` : `host https://${certDirName}:${addr.port}`;
@@ -45,8 +45,7 @@ module.exports = async function serverBuilder(port){
   });
 };
 if (cluster.isMaster) {
-  // Get port from environment and store in Express.
-  const port = normalizePort(process.env.PORT || '3000');
-  // Listen on provided port, on all network interfaces.
-  module.exports(port).then(server => server.listen(port));
+  const cliArgs = buildCliArgs();
+  serverBuilder(cliArgs).then(server => server.listen(cliArgs.port));
 }
+module.exports = serverBuilder;

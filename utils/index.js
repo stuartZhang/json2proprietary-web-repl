@@ -2,6 +2,7 @@ const _ = require('underscore');
 const cluster = require('cluster');
 const os = require('os');
 const debug = require('debug');
+const {ArgumentParser} = require('argparse');
 const pckg = require('../package.json');
 
 _.extendOwn(exports, {
@@ -51,17 +52,26 @@ _.extendOwn(exports, {
     }
     return debug(`${pckg.name}:${category}`);
   },
-  /**
-   * Normalize a port into a number, string, or false.
-   */
-  normalizePort(val){
-    const port = parseInt(val, 10);
-    if (isNaN(port)) { // named pipe
-      return val;
-    }
-    if (port >= 0) { // port number
-      return port;
-    }
-    return false;
+  buildCliArgs(){
+    const parser = new ArgumentParser({
+      version: '0.0.1',
+      addHelp: true,
+      description: 'Nav Web Server'
+    });
+    parser.addArgument([ '-p', '--port' ], {
+      action: 'store',
+      defaultValue: process.env.PORT || 3000,
+      dest: 'port',
+      help: 'The port number. (Default: 3000)',
+      type: 'int'
+    });
+    parser.addArgument([ '-cn', '--cert-name' ], {
+      action: 'store',
+      defaultValue: process.env.HTTPS_CERT_NAME,
+      dest: 'certName',
+      help: 'The certificate name',
+      type: 'string'
+    });
+    return parser.parseArgs();
   }
 });

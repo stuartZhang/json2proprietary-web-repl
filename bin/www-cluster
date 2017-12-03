@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const sticky = require('sticky-cluster');
-const {normalizePort} = require('../utils');
-const port = normalizePort(process.env.PORT || '3000');
-sticky(cb => require('./www')(port).then(cb), {
-  port,
+const {buildCliArgs} = require('../utils');
+const cliArgs = buildCliArgs();
+sticky(cb => require('./www')(cliArgs).then(cb), {
+  port: cliArgs.port,
   debug: process.env.NODE_ENV === 'development'
 });
