@@ -47,7 +47,7 @@ app.use('/users', users);
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(_.extendOwn(new Error('Not Found'), {status: 404})));
 // error handler
-app.use(function(err, req, res, next) { // render the error page
+app.use((err, req, res, next) => { // render the error page
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
