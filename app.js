@@ -6,6 +6,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
+const postcssMiddleware = require('postcss-middleware');
+const autoprefixer = require('autoprefixer');
 const rollupMiddleware = require('express-middleware-rollup');
 
 const tmplEngine = require('./utils/template-engine');
@@ -31,8 +33,18 @@ module.exports = function appBuilder(cliArgs){
     src: 'public/stylesheets',
     indentedSyntax: false, // true = .sass and false = .scss
     sourceMap: true,
-    outputStyle: 'compressed',
+    response: false,
+    outputStyle: 'compressed', // compressed | extended
     debug: cliArgs.isDebug
+  }));
+  app.use('/stylesheets', postcssMiddleware({
+    inlineSourcemaps: true,
+    plugins: [
+      autoprefixer()
+    ],
+    src(req) {
+      return path.join(__dirname, 'public/stylesheets', req.url);
+    }
   }));
   app.use('/javascripts', rollupMiddleware({
     src: 'public',
