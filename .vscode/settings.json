@@ -4,7 +4,7 @@
   },
   "files.exclude": {
     "node_modules/.bin": true,
-    "node_modules/[abcdfghijkmnopqrstuvwxy]*": true,
+    "node_modules/[@abcdfghijkmnopqrstuvwxy]*": true,
     "node_modules/e[celnrstv]*": true,
     "node_modules/ex[et]*": true,
     "node_modules/exp[a]*": true,
