@@ -28,7 +28,8 @@ app.use('/stylesheets', sassMiddleware({
   root: __dirname,
   src: 'public/stylesheets',
   indentedSyntax: false, // true = .sass and false = .scss
-  sourceMap: true
+  sourceMap: true,
+  debug: process.env.NODE_ENV === 'development'
 }));
 app.use('/javascripts', rollupMiddleware({
   src: 'public',

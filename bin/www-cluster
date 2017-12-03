@@ -4,5 +4,5 @@ const {normalizePort} = require('../utils');
 const port = normalizePort(process.env.PORT || '3000');
 sticky((cb) => cb(require('./www')), {
   port,
-  debug: true
+  debug: process.env.NODE_ENV === 'development'
 });
