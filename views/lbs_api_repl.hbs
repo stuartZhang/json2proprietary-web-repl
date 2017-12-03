@@ -1,6 +1,69 @@
 {{#extend "js_import"}}
   <script src="javascripts/repl-es5.js"></script>
 {{/extend}}
+<script type="geocode-req-payload">{
+  "query": {
+    "geocode-query": {
+      "search-filter": {
+        "pair": [{
+          "key": "language",
+          "value": "zh-CN"
+        }]
+      },
+      "address": {
+        "city": "",
+        "freeform": "NanKai district",
+        "country": "CHN",
+        "state": "",
+        "county": "",
+        "airport": "",
+        "str": "",
+        "xstr": "",
+        "sa": "",
+        "postal": "",
+        "type": "freeform"
+      },
+      "sliceres": {
+        "total": 10,
+        "start": 0,
+        "end": 10
+      },
+      "routeable": {}
+    }
+  }
+}</script>
+<script type="search-req-payload">{
+  "query": {
+    "search-query": {
+      "scheme": "tcs-single-search",
+      "language": "language",
+      "position": {
+        "variant": "point",
+        "point": {
+          "lat": 39.116823,
+          "lon": 117.148402
+        }
+      },
+      "search-filter": {
+        "pair": [{
+          "key": "name",
+          "value": "tianjinshi"
+        }, {
+          "key": "search-result-id",
+          "value": ""
+        }],
+        "result-style": {
+          "key": "single-search"
+        }
+      },
+      "iter-command": {
+        "command": "start",
+        "state": "",
+        "number": 10
+      }
+    }
+  }
+}</script>
 <form name="query" onsubmit="return false;">
   <div class="container">
     <div class="row">
@@ -10,38 +73,11 @@
     </div>
     <div class="row">
       <div class="col-lg-7">
-        <h2>Payload</h2>
-        <textarea name="payload" rows="10" style="width:100%">{
-          "query": {
-            "geocode-query": {
-              "search-filter": {
-                "pair": [{
-                  "key": "language",
-                  "value": "zh-CN"
-                }]
-              },
-              "address": {
-                "city": "",
-                "freeform": "NanKai district",
-                "country": "CHN",
-                "state": "",
-                "county": "",
-                "airport": "",
-                "str": "",
-                "xstr": "",
-                "sa": "",
-                "postal": "",
-                "type": "freeform"
-              },
-              "sliceres": {
-                "total": 10,
-                "start": 0,
-                "end": 10
-              },
-              "routeable": {}
-            }
-          }
-        }</textarea>
+        <h2>Payload <small><select name="req-payload">
+          <option value="geocode-req-payload">geocode</option>
+          <option value="search-req-payload" selected>search</option>
+        </select></small></h2>
+        <textarea name="payload" rows="10" style="width:100%"></textarea>
       </div>
       <div class="col-lg-5">
         <h2>Iden</h2>
