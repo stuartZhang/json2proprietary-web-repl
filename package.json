@@ -25,6 +25,7 @@
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.9.8",
     "serve-favicon": "~2.4.5",
+    "sticky-cluster": "^0.3.4",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

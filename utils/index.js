@@ -50,5 +50,18 @@ _.extendOwn(exports, {
       return debug(`${pckg.name}[${cluster.worker.process.pid}/${cluster.worker.id}]:${category}`);
     }
     return debug(`${pckg.name}:${category}`);
+  },
+  /**
+   * Normalize a port into a number, string, or false.
+   */
+  normalizePort(val){
+    const port = parseInt(val, 10);
+    if (isNaN(port)) { // named pipe
+      return val;
+    }
+    if (port >= 0) { // port number
+      return port;
+    }
+    return false;
   }
 });
