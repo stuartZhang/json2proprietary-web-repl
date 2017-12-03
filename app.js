@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const sassMiddleware = require('node-sass-middleware');
-const rollupMiddleware  = require('express-middleware-rollup');
+const rollupMiddleware = require('express-middleware-rollup');
 
 const tmplEngine = require('./utils/template-engine');
 const index = require('./routes/index');
@@ -25,12 +25,13 @@ module.exports = function appBuilder(cliArgs){
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.get('/stylesheets/*.sass', (req, res, next) => next(_.extendOwn(new Error('Not Found'), {status: 404})));
+  app.get('/stylesheets/*.scss', (req, res, next) => next(_.extendOwn(new Error('Not Found'), {status: 404})));
   app.use('/stylesheets', sassMiddleware({
     root: __dirname,
     src: 'public/stylesheets',
     indentedSyntax: false, // true = .sass and false = .scss
     sourceMap: true,
+    outputStyle: 'compressed',
     debug: cliArgs.isDebug
   }));
   app.use('/javascripts', rollupMiddleware({

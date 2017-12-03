@@ -1,3 +1,6 @@
+{{#extend "css_import"}}
+  <link rel='stylesheet' href='/stylesheets/repl.css' />
+{{/extend}}
 {{#extend "js_import"}}
   <script src="javascripts/repl-es5.js"></script>
 {{/extend}}
@@ -77,11 +80,11 @@
           <option value="geocode-req-payload">geocode</option>
           <option value="search-req-payload" selected>search</option>
         </select></small></h2>
-        <textarea name="payload" rows="10" style="width:100%"></textarea>
+        <textarea name="payload" rows="10"></textarea>
       </div>
       <div class="col-lg-5">
         <h2>Iden</h2>
-        <textarea name="iden" rows="10" style="width:100%">{
+        <textarea name="iden" rows="10">{
           "iden": {
             "ip-address": "192.168.84.233",
             "client-guid": "dc5b30a4ff374279802a06b26cef9b7",
@@ -103,7 +106,7 @@
     </div>
     <div class="row">
       <div class="col-lg-12">
-        <textarea id="res" rows="10" style="width:100%">Upcoming</textarea>
+        <textarea id="res" rows="10">Upcoming</textarea>
       </div>
     </div>
   </div>
