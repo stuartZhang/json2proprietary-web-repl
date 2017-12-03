@@ -1,6 +1,8 @@
 const _ = require('underscore');
+const cluster = require('cluster');
 const os = require('os');
 const debug = require('debug');
+const pckg = require('../package.json');
 
 _.extendOwn(exports, {
   render(layout, args){
@@ -18,7 +20,7 @@ _.extendOwn(exports, {
     };
   },
   getLocalIps(){
-    const log = debug('json2proprietary-web-repl:Local-IP');
+    const log = exports.debug('Local-IP');
     const ips = [];
     for (const [ifname, ifaces] of Object.entries(os.networkInterfaces())) {
       let alias = 0;
@@ -42,5 +44,11 @@ _.extendOwn(exports, {
       return `${os.hostname()}.${process.env.USERDOMAIN}`;
     }
     return os.hostname();
+  },
+  debug(category){
+    if (cluster.isWorker) {
+      return debug(`${pckg.name}[${cluster.worker.process.pid}/${cluster.worker.id}]:${category}`);
+    }
+    return debug(`${pckg.name}:${category}`);
   }
 });
