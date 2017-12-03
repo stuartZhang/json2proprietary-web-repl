@@ -31,7 +31,7 @@ module.exports = function appBuilder(cliArgs){
     src: 'public/stylesheets',
     indentedSyntax: false, // true = .sass and false = .scss
     sourceMap: true,
-    debug: process.env.NODE_ENV === 'development'
+    debug: cliArgs.isDebug
   }));
   app.use('/javascripts', rollupMiddleware({
     src: 'public',
@@ -53,7 +53,7 @@ module.exports = function appBuilder(cliArgs){
     res.status(err.status || 500);
     res.render('error', { // render the error page
       message: err.message,
-      error: req.app.get('env') === 'development' ? err : {}
+      error: cliArgs.isDebug ? err : {}
     });
   });
   return app;

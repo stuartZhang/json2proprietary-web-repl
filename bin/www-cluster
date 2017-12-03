@@ -4,5 +4,5 @@ const {buildCliArgs} = require('../utils');
 const cliArgs = buildCliArgs();
 sticky(cb => require('./www')(cliArgs).then(cb), {
   port: cliArgs.port,
-  debug: process.env.NODE_ENV === 'development'
+  debug: cliArgs.isDebug
 });

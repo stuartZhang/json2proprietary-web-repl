@@ -72,6 +72,16 @@ _.extendOwn(exports, {
       help: 'The certificate name',
       type: 'string'
     });
-    return parser.parseArgs();
+    parser.addArgument([ '-dbg', '--debug' ], {
+      action: 'storeTrue',
+      defaultValue: process.env.NODE_ENV === 'development',
+      dest: 'isDebug',
+      help: 'Enable the debug mode. (Default: false)'
+    });
+    const cliArgs = parser.parseArgs();
+    if (cliArgs.isDebug) {
+      process.env.NODE_ENV = 'development';
+    }
+    return cliArgs;
   }
 });
