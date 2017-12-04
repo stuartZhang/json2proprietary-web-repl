@@ -42,9 +42,9 @@ _.extendOwn(exports, {
   },
   getHostname(){
     if (process.env.USERDOMAIN) {
-      return `${os.hostname()}.${process.env.USERDOMAIN}`;
+      return `${os.hostname()}.${process.env.USERDOMAIN}.com`.toLowerCase();
     }
-    return os.hostname();
+    return os.hostname().toLowerCase();
   },
   debug(category){
     if (cluster.isWorker) {
