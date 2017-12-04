@@ -5,57 +5,24 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const sassMiddleware = require('node-sass-middleware');
-const postcssMiddleware = require('postcss-middleware');
-const autoprefixer = require('autoprefixer');
-const rollupMiddleware = require('express-middleware-rollup');
 
 const tmplEngine = require('./utils/template-engine');
+const scssTransplie = require('./utils/scss-transpile-middleware');
+const mjsTranpile = require('./utils/mjs-transpile-middleware');
 const index = require('./routes/index');
 const users = require('./routes/users');
 
 module.exports = function appBuilder(cliArgs){
   const app = express();
   app.set('port', cliArgs.port);
-  // view engine setup
-  app.set('view engine', 'hbs');
-  app.set('views', path.join(__dirname, 'views'));
-  tmplEngine(app);
-
+  tmplEngine(__dirname, app); // view engine setup
   app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.get('/stylesheets/*.scss', (req, res, next) => next(_.extendOwn(new Error('Not Found'), {status: 404})));
-  app.use('/stylesheets', sassMiddleware({
-    root: __dirname,
-    src: 'public/stylesheets',
-    indentedSyntax: false, // true = .sass and false = .scss
-    sourceMap: true,
-    response: false,
-    outputStyle: 'compressed', // compressed | extended
-    debug: cliArgs.isDebug
-  }));
-  app.use('/stylesheets', postcssMiddleware({
-    inlineSourcemaps: true,
-    plugins: [
-      autoprefixer()
-    ],
-    src(req) {
-      return path.join(__dirname, 'public/stylesheets', req.url);
-    }
-  }));
-  app.use('/javascripts', rollupMiddleware({
-    src: 'public',
-    destExtension: /-es5\.js$/,
-    bundleExtension: '.mjs',
-    // rebuild: 'always',
-    root: __dirname,
-    bundleOpts: {
-      sourceMap: 'inline'
-    }
-  }));
+  scssTransplie(cliArgs, __dirname, app);
+  mjsTranpile(cliArgs, __dirname, app);
   app.use(express.static(path.join(__dirname, 'public')));
 
   app.use('/', index);

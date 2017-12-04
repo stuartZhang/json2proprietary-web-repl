@@ -1,6 +1,8 @@
 const hbs = require('hbs');
-// 参考：https://cnodejs.org/topic/5706731ec5f5b4a959e91973
-module.exports = function(app){
+const path = require('path');
+module.exports = function(root, app){ // 参考：https://cnodejs.org/topic/5706731ec5f5b4a959e91973
+  app.set('view engine', 'hbs');
+  app.set('views', path.join(root, 'views'));
   hbs.localsAsTemplateData(app);
   let blocks = {};
   hbs.registerHelper('extend', function(name, context){
