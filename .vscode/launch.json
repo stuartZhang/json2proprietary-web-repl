@@ -12,7 +12,7 @@
     "env": {
       "PORT": "3001",
       "NODE_ENV": "development",
-      "DEBUG": "json2proprietary-web-repl:*,express-middleware-rollup:*,lbs-connect-driver:*"
+      "DEBUG": "json2proprietary-web-repl*,express-middleware-rollup*,lbs-connect-driver*"
     },
     "runtimeArgs": [
       "--preserve-symlinks"
