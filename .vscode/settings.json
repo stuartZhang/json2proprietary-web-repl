@@ -31,5 +31,6 @@
   "window.openFilesInNewWindow": "off",
   "workbench.editor.closeOnFileDelete": false,
   "workbench.editor.revealIfOpen": true,
-  "vsicons.presets.angular": false
+  "vsicons.presets.angular": false,
+  "eslint.enable": false
 }
