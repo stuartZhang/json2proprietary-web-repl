@@ -16,18 +16,18 @@ module.exports = {
   },
   'extends': [
     'eslint:recommended',
-    'amo-eslint-presets/eslint-config-errors.js',
-    'amo-eslint-presets/eslint-config-bestpractice.js',
-    'amo-eslint-presets/eslint-config-strict.js',
-    'amo-eslint-presets/eslint-config-var.js',
-    'amo-eslint-presets/eslint-config-node.js',
-    'amo-eslint-presets/eslint-config-es6.js',
-    'amo-eslint-presets/eslint-config-stylistic.js'
+    'eslint-config-amo/presets/eslint-config-errors.js',
+    'eslint-config-amo/presets/eslint-config-bestpractice.js',
+    'eslint-config-amo/presets/eslint-config-strict.js',
+    'eslint-config-amo/presets/eslint-config-var.js',
+    'eslint-config-amo/presets/eslint-config-node.js',
+    'eslint-config-amo/presets/eslint-config-es6.js',
+    'eslint-config-amo/presets/eslint-config-stylistic.js'
   ],
   'parser': 'babel-eslint',
   'plugins': [
-    'amo-eslint-presets/eslint-plugin-sweetjs.js',
-    'amo-eslint-presets/eslint-plugin-es6.js'
+    'eslint-config-amo/eslint-plugin-sweetjs.js',
+    'eslint-config-amo/eslint-plugin-es6.js'
   ],
   'root': true
 };
