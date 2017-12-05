@@ -1,7 +1,11 @@
 {
+  "debug.inlineValues": true,
+  "debug.openExplorerOnEnd": true,
+  "debug.allowBreakpointsEverywhere": false,
   "files.associations": {
     "www-cluster": "javascript"
   },
+  "files.defaultLanguage": "javascript",
   "files.exclude": {
     "node_modules/.bin": true,
     "node_modules/[@abcdfghijkmnopqrstuvwxy]*": true,
@@ -12,22 +16,18 @@
     "node_modules/l[acor]*": true
   },
   "files.trimTrailingWhitespace": true,
+  "editor.snippetSuggestions": "top",
+  "editor.tabCompletion": true,
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "editor.detectIndentation": false,
-  "extensions.autoUpdate": true,
-  "window.openFilesInNewWindow": "off",
-  "editor.snippetSuggestions": "top",
-  "editor.tabCompletion": true,
-  "vsicons.presets.angular": false,
   "explorer.autoReveal": true,
-  "debug.inlineValues": true,
-  "debug.openExplorerOnEnd": true,
-  "debug.allowBreakpointsEverywhere": false,
-  "workbench.editor.revealIfOpen": true,
-  "workbench.editor.closeOnFileDelete": false,
-  "files.defaultLanguage": "javascript",
+  "extensions.autoUpdate": true,
   "projectManager.groupList": true,
   "projectManager.sortList": "Recent",
-  "projectManager.openInNewWindowWhenClickingInStatusBar": true
+  "projectManager.openInNewWindowWhenClickingInStatusBar": true,
+  "window.openFilesInNewWindow": "off",
+  "workbench.editor.closeOnFileDelete": false,
+  "workbench.editor.revealIfOpen": true,
+  "vsicons.presets.angular": false
 }
