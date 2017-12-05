@@ -4,7 +4,7 @@
   "private": true,
   "main": "./bin/www",
   "scripts": {
-    "postinstall": "npm link amo-eslint-presets express-middleware-rollup lbs-connect-driver",
+    "postinstall": "npm link eslint-config-amo express-middleware-rollup lbs-connect-driver",
     "start": "forever start ./bin/www",
     "stop": "forever stop ./bin/www",
     "cluster-start": "forever start ./bin/www-cluster",
