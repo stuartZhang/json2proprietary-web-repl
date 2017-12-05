@@ -4,7 +4,7 @@
   "private": true,
   "main": "./bin/www",
   "scripts": {
-    "postinstall": "npm link express-middleware-rollup lbs-connect-driver",
+    "postinstall": "npm link amo-eslint-presets express-middleware-rollup lbs-connect-driver",
     "start": "forever start ./bin/www",
     "stop": "forever stop ./bin/www",
     "cluster-start": "forever start ./bin/www-cluster",
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",

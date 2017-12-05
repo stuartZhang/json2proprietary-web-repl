@@ -27,12 +27,12 @@ module.exports = {
   },
   'extends': [
     'eslint:recommended',
-    '../build-tools/js/eslint/eslint-config-connect-errors.js',
-    '../build-tools/js/eslint/eslint-config-connect-bestpractice.js',
-    '../build-tools/js/eslint/eslint-config-connect-strict.js',
-    '../build-tools/js/eslint/eslint-config-connect-var.js',
-    '../build-tools/js/eslint/eslint-config-connect-es6.js',
-    '../build-tools/js/eslint/eslint-config-connect-stylistic.js'
+    'amo-eslint-presets/eslint-config-errors.js',
+    'amo-eslint-presets/eslint-config-bestpractice.js',
+    'amo-eslint-presets/eslint-config-strict.js',
+    'amo-eslint-presets/eslint-config-var.js',
+    'amo-eslint-presets/eslint-config-es6.js',
+    'amo-eslint-presets/eslint-config-stylistic.js'
   ],
   'parser': 'babel-eslint',
   'root': true,
