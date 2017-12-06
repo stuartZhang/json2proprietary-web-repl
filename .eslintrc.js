@@ -18,7 +18,6 @@ module.exports = {
     'eslint:recommended',
     'eslint-config-amo/presets/eslint-config-errors.js',
     'eslint-config-amo/presets/eslint-config-bestpractice.js',
-    'eslint-config-amo/presets/eslint-config-strict.js',
     'eslint-config-amo/presets/eslint-config-var.js',
     'eslint-config-amo/presets/eslint-config-node.js',
     'eslint-config-amo/presets/eslint-config-es6.js',
