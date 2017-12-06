@@ -35,9 +35,9 @@ module.exports = {
   ],
   'parser': 'babel-eslint',
   'root': true,
+  'plugins': ['sweetjs'],
   'rules': {
     'sweetjs/no-console': ['error'],
     'no-console': 'off'
-  },
-  'plugins': ['es6', "sweetjs"]
+  }
 };

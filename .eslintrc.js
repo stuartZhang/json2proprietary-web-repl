@@ -24,8 +24,6 @@ module.exports = {
     'eslint-config-amo/presets/eslint-config-stylistic.js'
   ],
   'parser': 'babel-eslint',
-  'plugins': [
-    'es6', "sweetjs"
-  ],
+  'plugins': ['sweetjs'],
   'root': true
 };
