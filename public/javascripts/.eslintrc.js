@@ -39,5 +39,6 @@ module.exports = {
   'rules': {
     'sweetjs/no-console': ['error'],
     'no-console': 'off'
-  }
+  },
+  'plugins': ['es6', "sweetjs"]
 };
