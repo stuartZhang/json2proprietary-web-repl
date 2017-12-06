@@ -26,8 +26,7 @@ module.exports = {
   ],
   'parser': 'babel-eslint',
   'plugins': [
-    'eslint-config-amo/eslint-plugin-sweetjs.js',
-    'eslint-config-amo/eslint-plugin-es6.js'
+    'es6', "sweetjs"
   ],
   'root': true
 };

@@ -23,6 +23,8 @@
     "cssnext": "^1.8.4",
     "debug": "~2.6.9",
     "eslint-config-amo": "file:../eslint-config-amo",
+    "eslint-plugin-es6": "file:../eslint-config-amo/eslint-plugin-es6",
+    "eslint-plugin-sweetjs": "file:../eslint-config-amo/eslint-plugin-sweetjs",
     "express": "~4.15.5",
     "express-middleware-rollup": "file:../express-middleware-rollup",
     "fs-promise": "^2.0.3",
