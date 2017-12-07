@@ -29,6 +29,7 @@
     "express-middleware-rollup": "file:../express-middleware-rollup",
     "fs-promise": "^2.0.3",
     "hbs": "~4.0.1",
+    "jsoneditor": "^5.11.0",
     "lbs-connect-driver": "file:../json2proprietary",
     "morgan": "~1.9.0",
     "node-sass": "^4.7.2",

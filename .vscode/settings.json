@@ -24,6 +24,7 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "editor.detectIndentation": false,
+  "eslint.autoFixOnSave": true,
   "eslint.enable": true,
   "explorer.autoReveal": true,
   "extensions.autoUpdate": true,
