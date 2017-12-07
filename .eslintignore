@@ -1,0 +1,4 @@
+# Generated JS
+public/javascripts/**/*-es5.js
+# 3rd-party JS
+public/javascripts/externals/**/*.js
