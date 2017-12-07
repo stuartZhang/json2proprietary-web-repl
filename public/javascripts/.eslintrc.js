@@ -27,11 +27,12 @@ module.exports = {
   },
   'extends': [
     'eslint:recommended',
-    'eslint-config-amo/presets/eslint-config-errors.js',
     'eslint-config-amo/presets/eslint-config-bestpractice.js',
-    'eslint-config-amo/presets/eslint-config-var.js',
+    'eslint-config-amo/presets/eslint-config-errors.js',
     'eslint-config-amo/presets/eslint-config-es6.js',
-    'eslint-config-amo/presets/eslint-config-stylistic.js'
+    'eslint-config-amo/presets/eslint-config-possibleerrors.js',
+    'eslint-config-amo/presets/eslint-config-stylistic.js',
+    'eslint-config-amo/presets/eslint-config-var.js'
   ],
   'parser': 'babel-eslint',
   'root': true,
