@@ -8,7 +8,9 @@ module.exports = function mjsTranspiler(cliArgs, root, app){
     'bundleExtension': '.mjs',
     // 'rebuild': 'always',
     'bundleOpts': {
-      'banner': '/* eslint-disable */',
+      'globals': {
+        'jsoneditor': 'JSONEditor'
+      },
       'sourceMap': cliArgs.isDebug ? 'inline' : false
     }
   }));
