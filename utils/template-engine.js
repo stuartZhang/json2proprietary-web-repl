@@ -4,14 +4,14 @@ module.exports = function(root, app){ // 参考：https://cnodejs.org/topic/5706
   app.set('view engine', 'hbs');
   app.set('views', path.join(root, 'views'));
   hbs.localsAsTemplateData(app);
-  let blocks = {};
+  const blocks = {};
   hbs.registerHelper('extend', function(name, context){
     if (!blocks[name]) {
       blocks[name] = [];
     }
     blocks[name].push(context.fn(this));
   });
-  hbs.registerHelper('block', function(name){
+  hbs.registerHelper('block', name => {
     const val = (blocks[name] || []).join('\n');
     blocks[name] = [];
     return val;
