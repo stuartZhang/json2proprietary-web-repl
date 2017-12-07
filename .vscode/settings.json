@@ -24,6 +24,7 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "editor.detectIndentation": false,
+  "eslint.enable": true,
   "explorer.autoReveal": true,
   "extensions.autoUpdate": true,
   "projectManager.groupList": true,
@@ -32,6 +33,5 @@
   "window.openFilesInNewWindow": "off",
   "workbench.editor.closeOnFileDelete": false,
   "workbench.editor.revealIfOpen": true,
-  "vsicons.presets.angular": false,
-  "eslint.enable": true
+  "vsicons.presets.angular": false
 }
