@@ -19,7 +19,7 @@ module.exports = function appBuilder(cliArgs){
   app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
   app.use(logger('dev'));
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({'extended': false}));
   app.use(cookieParser());
   scssTransplie(cliArgs, __dirname, app);
   mjsTranpile(cliArgs, __dirname, app);
@@ -28,12 +28,12 @@ module.exports = function appBuilder(cliArgs){
   app.use('/', index);
   app.use('/users', users);
   // catch 404 and forward to error handler
-  app.use((req, res, next) => next(_.extendOwn(new Error('Not Found'), {status: 404})));
-  app.use((err, req, res, next) => { // error handler
+  app.use((req, res, next) => next(_.extendOwn(new Error('Not Found'), {'status': 404})));
+  app.use((err, req, res) => { // error handler
     res.status(err.status || 500);
     res.render('error', { // render the error page
-      message: err.message,
-      error: cliArgs.isDebug ? err : {}
+      'message': err.message,
+      'error': cliArgs.isDebug ? err : {}
     });
   });
   return app;
