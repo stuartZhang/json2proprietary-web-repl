@@ -1,0 +1,17 @@
+{
+  "restartable": "rs",
+  "delay": 2500,
+  "verbose": true,
+  "ext": "js json mjs bbjs",
+  "ignore": [
+    "node_modules/*",
+    "public/*",
+    "*.json",
+    "*.md",
+    "LICENSE"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "json2proprietary-web-repl:*"
+  }
+}

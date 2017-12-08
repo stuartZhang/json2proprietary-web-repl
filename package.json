@@ -48,22 +48,5 @@
     "eslint-config-amo": "file:../eslint-config-amo",
     "eslint-plugin-amo": "file:../eslint-plugin-amo",
     "nodemon": "^1.12.1"
-  },
-  "nodemonConfig": {
-    "restartable": "rs",
-    "delay": 2500,
-    "verbose": true,
-    "ext": "js json mjs bbjs",
-    "ignore": [
-      "node_modules/*",
-      "public/*",
-      "*.json",
-      "*.md",
-      "LICENSE"
-    ],
-    "env": {
-      "NODE_ENV": "development",
-      "DEBUG": "json2proprietary-web-repl:*"
-    }
   }
 }
