@@ -47,6 +47,7 @@
     "eslint": "^4.12.1",
     "eslint-config-amo": "file:../eslint-config-amo",
     "eslint-plugin-amo": "file:../eslint-plugin-amo",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "stylelint": "^8.3.1"
   }
 }
