@@ -3,7 +3,7 @@
 module.exports = {
   'rules': {
     'at-rule-empty-line-before': ['always', {
-      'except': [ 'blockless-group', 'first-nested' ],
+      'except': ['blockless-after-same-name-blockless', 'blockless-after-blockless', 'first-nested' ],
       'ignore': ['after-comment'],
     }],
     'block-closing-brace-newline-after': 'always',
@@ -29,7 +29,7 @@ module.exports = {
     'declaration-colon-newline-after': 'always-multi-line',
     'declaration-colon-space-after': 'always-single-line',
     'declaration-colon-space-before': 'never',
-    'font-family-name-quotes': 'single-where-recommended',
+    'font-family-name-quotes': 'always-where-recommended',
     'function-calc-no-unspaced-operator': true,
     'function-comma-newline-after': 'always-multi-line',
     'function-comma-space-after': 'always-single-line',
@@ -37,7 +37,7 @@ module.exports = {
     'function-linear-gradient-no-nonstandard-direction': true,
     'function-parentheses-newline-inside': 'always-multi-line',
     'function-parentheses-space-inside': 'never-single-line',
-    'function-url-quotes': 'single',
+    'function-url-quotes': 'always',
     'function-whitespace-after': 'always',
     'indentation': 2,
     'max-empty-lines': 1,
