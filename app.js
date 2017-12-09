@@ -21,6 +21,7 @@ module.exports = function appBuilder(cliArgs){
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({'extended': false}));
   app.use(cookieParser());
+  app.all(['**/.eslintrc.js', '**/.stylelintrc.js'], (req, res, next) => next(_.extendOwn(new Error('Not Found'), {'status': 404})));
   scssTransplie(cliArgs, __dirname, app);
   mjsTranpile(cliArgs, __dirname, app);
   app.use(express.static(path.join(__dirname, 'public')));
