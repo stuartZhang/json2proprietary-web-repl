@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const cluster = require('cluster');
+const _ = require('underscore');
 const {getLocalIps, getHostname, debug, buildCliArgs} = require('../utils');
 async function serverBuilder(cliArgs){
+  /* eslint-disable no-console, no-process-exit */
   const https = require('https');
   const fs = require('fs-promise');
   const path = require('path');
@@ -24,26 +26,26 @@ async function serverBuilder(cliArgs){
     const addr = server.address();
     const bind = typeof addr === 'string' ? `pipe ${addr}` : `host https://${certDirName}:${addr.port}`;
     log(`Listening on ${bind}`);
-  }).on('error', (error) => { // Event listener for HTTP server "error" event.
+  }).on('error', error => { // Event listener for HTTP server "error" event.
     if (error.syscall !== 'listen') {
       throw error;
     }
-    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    const bind = _.isString(cliArgs.port) ? `Pipe ${cliArgs.port}` : `Port ${cliArgs.port}`;
     // handle specific listen errors with friendly messages
     switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
       throw error;
     }
   });
-};
+}
 if (cluster.isMaster) {
   const cliArgs = buildCliArgs();
   serverBuilder(cliArgs).then(server => server.listen(cliArgs.port));

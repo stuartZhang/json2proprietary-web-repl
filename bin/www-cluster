@@ -3,6 +3,6 @@ const sticky = require('sticky-cluster');
 const {buildCliArgs} = require('../utils');
 const cliArgs = buildCliArgs();
 sticky(cb => require('./www')(cliArgs).then(cb), {
-  port: cliArgs.port,
-  debug: cliArgs.isDebug
+  'port': cliArgs.port,
+  'debug': cliArgs.isDebug
 });
