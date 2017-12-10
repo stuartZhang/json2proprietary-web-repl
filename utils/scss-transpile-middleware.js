@@ -1,6 +1,7 @@
 const postcss = require('postcss')([
   require('autoprefixer'),
-  require('cssnext')
+  require('cssnext'),
+  require('cssnano')
 ]);
 const sass = require('node-sass');
 const sassMiddleware = require('node-sass-middleware');

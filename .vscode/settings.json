@@ -1,4 +1,5 @@
 {
+  "css.validate": false,
   "debug.inlineValues": true,
   "debug.openExplorerOnEnd": true,
   "debug.allowBreakpointsEverywhere": false,
