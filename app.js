@@ -29,7 +29,7 @@ module.exports = function appBuilder(cliArgs){
   app.use('/', index);
   app.use('/users', users);
   // catch 404 and forward to error handler
-  app.use((req, res, next) => next(_.extendOwn(new Error('Not Found'), {'status': 404})));
+  app.use((req, res, next) => next(_.extendOwn(new Error(`Not Found - ${req.originalUrl}`), {'status': 404})));
   app.use((err, req, res) => { // error handler
     res.status(err.status || 500);
     res.render('error', { // render the error page
