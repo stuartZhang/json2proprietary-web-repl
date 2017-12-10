@@ -9,7 +9,7 @@ module.exports = function mjsTranspiler(cliArgs, root, app){
     'bundleExtension': '.mjs',
     // 'rebuild': 'always',
     'rollupOpts': {
-      'external': ['jsoneditor'],
+      'external': ['circularjson', 'jsoneditor', 'sourcemappedstacktrace'],
       'plugins': [babelPlugin({ // .babelrc 自动装载
         'externalHelpers': true,
         'exclude': 'node_modules/**'
@@ -17,7 +17,9 @@ module.exports = function mjsTranspiler(cliArgs, root, app){
     },
     'bundleOpts': {
       'globals': {
-        'jsoneditor': 'JSONEditor'
+        'circularjson': 'CircularJSON',
+        'jsoneditor': 'JSONEditor',
+        'sourcemappedstacktrace': 'sourceMappedStackTrace'
       },
       'sourceMap': cliArgs.isDebug ? 'inline' : false
     }
