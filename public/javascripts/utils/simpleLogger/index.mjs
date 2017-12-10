@@ -9,19 +9,15 @@ function ParseError(){
   function concatPath(dirname, filename){
     const dirnames = dirname.split('/');
     let filenames = filename.split('/');
-    filenames = filenames.map((fn) => {
+    filenames = filenames.map(fn => {
       if (fn === '..') {
         dirnames.pop();
         return null;
-      }
-      else if (fn === '.') {
+      } else if (fn === '.') {
         return null;
       }
       return fn;
-    })
-    .filter((fn) => {
-      return fn != null;
-    });
+    }).filter(fn => fn != null);
     dirname = dirnames.join('/');
     filename = filenames.join('/');
     let result = `${dirname}${filename}`;
@@ -38,16 +34,15 @@ function ParseError(){
   const url = configJson.entry;
   let jsDir;
   if (url.indexOf('/') > -1) {
-    jsDir = `${url.split(/\/(?=[^\/]+$)/)[0]}/`;
-  }
-  else {
+    jsDir = `${url.split(/\/(?=[^/]+$)/)[0]}/`;
+  } else {
     jsDir = '';
   }
   (async () => {
     const res = await fetch(url);
     const jsText = await res.text();
     let smText = jsText.substring(jsText.lastIndexOf('\n') + 1); // Last Line
-    const prefix = '\/\/# sourceMappingURL=data:application/json;charset=utf-8;base64,';
+    const prefix = '//# sourceMappingURL=data:application/json;charset=utf-8;base64,';
     if (smText.indexOf(prefix) !== 0) {
       return;
     }
@@ -62,13 +57,13 @@ function ParseError(){
     }
     const _sourceMap = {}, lines = [], rows = [];
     stack = stack.split('\n');
-    stack.forEach((traceItem) => {
+    stack.forEach(traceItem => {
       const groups = sourceMapPattern.exec(traceItem);
       if (groups) {
         lines.push(traceItem);
         rows.push(groups);
         const [, uri] = groups;
-        sourceMapKeys.forEach((key) => {
+        sourceMapKeys.forEach(key => {
           const index = uri.indexOf(key) - 1;
           if (index < 0) {
             return;
@@ -76,7 +71,7 @@ function ParseError(){
           if (sourceMapDirnames[key] == null) {
             sourceMapDirnames[key] = uri.substring(0, index);
             const pojo = JSON.parse(sourceMap[key]);
-            pojo.sources = pojo.sources.map((source) => {
+            pojo.sources = pojo.sources.map(source => {
               let dirName = `${sourceMapDirnames[key]}${jsDir}`;
               if (!sourceMapDirnames[key].match(/\/$/) && !jsDir.match(/^\//)) {
                 dirName = `${sourceMapDirnames[key]}/${jsDir}`;
@@ -90,24 +85,21 @@ function ParseError(){
       }
     });
     let _stack = sourceMappedStackTrace.processSourceMaps(lines, rows, _sourceMap);
-    _stack = _stack.map((traceItem, index) => {
-      return traceItem.replace(traceItemPattern, (match, p1) => {
-        if (filePathPattern.test(p1)) {
-          return match;
-        }
-        else if (p1 === 'null:null:null') {
-          const line = stack[index + 1];
-          if (line) {
-            const index = line.indexOf('@');
-            if (index > -1) {
-              return line.substring(index + 1);
-            }
-            return line;
+    _stack = _stack.map((traceItem, index) => traceItem.replace(traceItemPattern, (match, p1) => {
+      if (filePathPattern.test(p1)) {
+        return match;
+      } else if (p1 === 'null:null:null') {
+        const line = stack[index + 1];
+        if (line) {
+          const index = line.indexOf('@');
+          if (index > -1) {
+            return line.substring(index + 1);
           }
+          return line;
         }
-        return `(${p1})`;
-      });
-    });
+      }
+      return `(${p1})`;
+    }));
     return `${message}\n${_stack.join('\n')}`;
   };
 }
@@ -118,36 +110,28 @@ function sfmt(...args){
     let tempStr;
     if (_.isError(value)) {
       return parseError(value);
-    }
-    else if (_.isNumber(value) || _.isBoolean(value)) {
+    } else if (_.isNumber(value) || _.isBoolean(value)) {
       return String(value);
-    }
-    else if (_.isString(value)) {
+    } else if (_.isString(value)) {
       return value;
-    }
-    else if (_.isObject(value) || _.isArray(value)) {
+    } else if (_.isObject(value) || _.isArray(value)) {
       if (/%o/i.test(placeholder)) {
-        console.log(value); // eslint-disable-line sweetjs/no-console
+        console.log(value); // eslint-disable-line amo/no-console
         tempStr = '▲';
-      }
-      else if (value.name && value.message && value.stack) {
+      } else if (value.name && value.message && value.stack) {
         return parseError(value);
-      }
-      else {
+      } else {
         try {
           tempStr = CircularJSON.stringify(value, null, 2);
-        }
-        catch (err) {
-          console.log('<Circular Object> %o', value); // eslint-disable-line sweetjs/no-console
+        } catch (err) {
+          console.log('<Circular Object> %o', value); // eslint-disable-line amo/no-console
           tempStr = `[Circular Object] ${Object.keys(value)}`;
         }
       }
       return tempStr;
-    }
-    else if (_.isFunction(value)) {
+    } else if (_.isFunction(value)) {
       return value.constructor.name;
-    }
-    else if (_.isNull(value) || _.isUndefined(value)) {
+    } else if (_.isNull(value) || _.isUndefined(value)) {
       return value;
     }
     return `unknown type (${typeof value})`;
@@ -217,16 +201,13 @@ const FILTERS = {
         default:
           throw new Error(`Unknown rule log level: ${levels}`);
         }
-      }
-      else if (_.isArray(levels)) {
+      } else if (_.isArray(levels)) {
         return levels.indexOf(level) > -1;
-      }
-      else if (_.isNull(levels) || _.isUndefined(levels)) {
+      } else if (_.isNull(levels) || _.isUndefined(levels)) {
         return true;
       }
       throw new Error(`Unsupported Log Level Type: ${typeof levels}`);
-    }
-    else {
+    } else {
       return false;
     }
   },
@@ -253,8 +234,7 @@ const FILTERS = {
     const isIn = this._isIncluded(category, level);
     if (isEx && isIn) {
       return !this.priorExcluded;
-    }
-    else if (isEx) {
+    } else if (isEx) {
       return false;
     }
     return isIn;
@@ -300,11 +280,7 @@ const LEVELS = {
 const CATEGORIES = {};
 for (const [catCode, catName] of Object.entries(configJson.categories)) {
   CATEGORIES[catCode] = function(...args){
-    return {
-      'category': catCode
-    }::this(() => {
-      return sfmt('[%s] %s', catName, sfmt(...args));
-    });
+    return Reflect.apply(this, {'category': catCode}, [() => sfmt('[%s] %s', catName, sfmt(...args))]);
   };
 }
 for (const [level, levelHandle] of Object.entries(LEVELS)) { // Levels
