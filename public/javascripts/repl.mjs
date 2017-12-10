@@ -13,6 +13,7 @@ selPayload.addEventListener('change', () => {
   txtPayload.value = script.textContent;
 });
 btnSend.addEventListener('click', async () => {
+  MACRO_LOG_DEBUG [idbm] 'Click'
   jsonEditor.set({});
   const res = await fetch('/lbs-api-repl', {
     'method': 'POST',
