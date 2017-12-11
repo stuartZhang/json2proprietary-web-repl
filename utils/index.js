@@ -5,6 +5,12 @@ const debug = require('debug');
 const {ArgumentParser} = require('argparse');
 const pckg = require('../package.json');
 
+_.defaults(String.prototype, {
+  at(position){
+    return String.fromCodePoint(this.codePointAt(position));
+  }
+});
+
 _.extendOwn(exports, {
   render(layout, args){
     return (req, res) => {
