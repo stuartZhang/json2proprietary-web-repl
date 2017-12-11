@@ -34,13 +34,13 @@ module.exports = function mjsTranspiler(cliArgs, root, app){
       'sourceMap': cliArgs.isDebug ? 'inline' : false,
       'banner': entry => {
         const segment = "(typeof window === 'undefined' ? self : window)";
-        const name = path.basename(entry).replace(/\.mjs$/, '.js');
+        const name = path.basename(entry).replace(/\.mjs$/, '-es5.js');
         let dir, fullpath;
         if (this.isServiceWorker) {
           dir = 'location.origin';
           fullpath = `location.origin + '/${name}'`;
         } else {
-          const slashNames = path.dirname(entry).replace(/\\/g, '/');
+          const slashNames = path.relative('./public', path.dirname(entry)).replace(/\\/g, '/');
           dir = `location.origin + '/${slashNames}'`;
           fullpath = `location.origin + '/${slashNames}/${name}'`;
         }
