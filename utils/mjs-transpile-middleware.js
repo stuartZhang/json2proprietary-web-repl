@@ -15,7 +15,7 @@ module.exports = function mjsTranspiler(cliArgs, root, app){
     'src': 'public',
     'destExtension': /-es5\.js$/,
     'bundleExtension': '.mjs',
-    'rebuild': 'always',
+    // 'rebuild': 'always',
     'rollupOpts': {
       'external': ['circularjson', 'jsoneditor', 'qs', 'sourcemappedstacktrace', 'underscore'],
       'plugins': [babelPlugin({ // .babelrc 自动装载
