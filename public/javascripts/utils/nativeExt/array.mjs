@@ -131,8 +131,8 @@ _.defaults(Array.prototype, /** @lends Array */ {
       const groupSize = predicate;
       const newArray = [];
       for (let endIndex = groupSize, startIndex = 0;
-            startIndex < this.length;
-            startIndex = endIndex, endIndex = startIndex + groupSize) {
+        startIndex < this.length;
+        startIndex = endIndex, endIndex = startIndex + groupSize) {
         newArray.push(this.slice(startIndex, endIndex));
       }
       return newArray;

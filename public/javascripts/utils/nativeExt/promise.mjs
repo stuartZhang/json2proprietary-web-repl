@@ -62,8 +62,8 @@ Object.assign(Promise, {
 _.defaults(Promise.prototype, {
   delay(mise){
     return this.then(result => Promise.delay(mise, undefined, result),
-                     err => Promise.delay(mise, err))
-               .promise(Promise[EXTRA_PROPS].get(this));
+      err => Promise.delay(mise, err))
+      .promise(Promise[EXTRA_PROPS].get(this));
   },
   timeout(wait){
     return new Promise((resolve, reject) => {
