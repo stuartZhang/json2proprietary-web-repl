@@ -7,7 +7,7 @@ import sourceMappedStackTrace from 'sourcemappedstacktrace';
 function ParseError(){
 
   function concatPath(dirname, filename){
-    const dirnames = dirname.split('/');
+    const dirnames = dirname.replace(/\/$/, '').split('/');
     let filenames = filename.split('/');
     filenames = filenames.map(fn => {
       if (fn === '..') {
@@ -17,7 +17,7 @@ function ParseError(){
         return null;
       }
       return fn;
-    }).filter(fn => fn != null);
+    }).filter(value => value != null);
     dirname = dirnames.join('/');
     filename = filenames.join('/');
     let result = `${dirname}${filename}`;
@@ -28,7 +28,7 @@ function ParseError(){
   }
 
   let sourceMap, sourceMapDirnames, sourceMapKeys;
-  const sourceMapPattern = /.*\b((?:https?):\/\/(?:[^/]+)(?:\d+)(?=\/)(?:[^:]+)|file:\/\/[^:]+):(\d+):(\d+)\b.*/;
+  const sourceMapPattern = /.*[^:]((?:blob:)?(?:https?):\/\/(?:[^/]+)(?:\d+)(?=\/)(?:[^:]+)|file:\/\/[^:]+):(\d+):(\d+)\b.*/;
   const traceItemPattern = /\(([^()]+)\)\s*$/;
   const filePathPattern = /^(?:file:\/\/|https?:\/\/)/;
   const url = configJson.entry;
@@ -51,7 +51,10 @@ function ParseError(){
     sourceMapKeys = Object.keys(sourceMap);
     sourceMapDirnames = {};
   })();
-  return ({message, stack}) => {
+  return ({name, message, stack}) => {
+    if (stack == null) {
+      return `[${name}] ${message}`;
+    }
     if (sourceMap == null || !configJson.bbjsStack) {
       return `${message}\n${stack}`;
     }
@@ -62,23 +65,30 @@ function ParseError(){
       if (groups) {
         lines.push(traceItem);
         rows.push(groups);
-        const [, uri] = groups;
+        let [, uri] = groups;
         sourceMapKeys.forEach(key => {
-          const index = uri.indexOf(key) - 1;
-          if (index < 0) {
-            return;
+          if (uri.startsWith('blob:http') && key.endsWith(__filepath)) {
+            groups[0] = lines[lines.length - 1] = lines[lines.length - 1].replace(uri, key);
+            groups[1] = key;
+            uri = key;
           }
-          if (sourceMapDirnames[key] == null) {
-            sourceMapDirnames[key] = uri.substring(0, index);
-            const pojo = JSON.parse(sourceMap[key]);
-            pojo.sources = pojo.sources.map(source => {
-              let dirName = `${sourceMapDirnames[key]}${jsDir}`;
-              if (!sourceMapDirnames[key].match(/\/$/) && !jsDir.match(/^\//)) {
-                dirName = `${sourceMapDirnames[key]}/${jsDir}`;
-              }
-              return concatPath(dirName, source);
-            });
-            sourceMap[key] = JSON.stringify(pojo);
+          if (uri !== key) {
+            const index = uri.indexOf(key) - 1;
+            if (index < 0) {
+              return;
+            }
+            if (sourceMapDirnames[key] == null) {
+              sourceMapDirnames[key] = uri.substring(0, index);
+              const pojo = JSON.parse(sourceMap[key]);
+              pojo.sources = pojo.sources.map(source => {
+                let dirName = `${sourceMapDirnames[key]}${jsDir}`;
+                if (!sourceMapDirnames[key].match(/\/$/) && !jsDir.match(/^\//)) {
+                  dirName = `${sourceMapDirnames[key]}/${jsDir}`;
+                }
+                return concatPath(dirName, source);
+              });
+              sourceMap[key] = JSON.stringify(pojo);
+            }
           }
           _sourceMap[uri] = sourceMap[key];
         });
@@ -103,18 +113,23 @@ function ParseError(){
     return `${message}\n${_stack.join('\n')}`;
   };
 }
-
 function sfmt(...args){
-
   function stringify(value, placeholder){
-    let tempStr;
-    if (_.isError(value)) {
+    if (_.isFunction(value) && value.length <= 0) {
+      value = value();
+    }
+    if (_.isError(value) || value instanceof Error) {
       return parseError(value);
     } else if (_.isNumber(value) || _.isBoolean(value)) {
       return String(value);
     } else if (_.isString(value)) {
       return value;
+    } else if (_.isFunction(value)) {
+      return value.constructor.name;
+    } else if (_.isNull(value) || _.isUndefined(value)) {
+      return value;
     } else if (_.isObject(value) || _.isArray(value)) {
+      let tempStr;
       if (/%o/i.test(placeholder)) {
         console.log(value); // eslint-disable-line amo/no-console
         tempStr = '▲';
@@ -129,14 +144,9 @@ function sfmt(...args){
         }
       }
       return tempStr;
-    } else if (_.isFunction(value)) {
-      return value.constructor.name;
-    } else if (_.isNull(value) || _.isUndefined(value)) {
-      return value;
     }
     return `unknown type (${typeof value})`;
   }
-
   const pattern = /%[a-zA-Z]/g;
   let groups;
   const template = args[0];
@@ -240,54 +250,122 @@ const FILTERS = {
     return isIn;
   }
 };
-Object.assign(FILTERS, configJson);
+_.extendOwn(FILTERS, configJson);
 // Levels
+function calcFilter(callback, lvl){
+  let category;
+  if (callback instanceof getCategory) {
+    category = callback.symbol;
+  } else if (_.isObject(this)) {
+    category = this.category;
+  }
+  console.assert(category != null, "Simple Logger category can't be null.");
+  return _.isString(category) && !FILTERS.is(category, lvl);
+}
+function calcInput(callback){
+  if (_.isFunction(callback)) {
+    return callback();
+  } else if (callback instanceof getCategory) {
+    return callback;
+  }
+  return null;
+}
 const LEVELS = {
   d(callback){
-    if (_.isObject(this) &&
-        _.isString(this.category) &&
-        !FILTERS.is(this.category, 'd')) {
+    if (this::calcFilter(callback, 'd')) {
       return [''];
     }
-    return [`%c${sfmt('[DEBUG] %s', sfmt(callback()))}`, 'color:blue'];
+    return [`%c${sfmt('[DEBUG] %s', sfmt(this::calcInput(callback)))}`, 'color:blue'];
   },
   i(callback){
-    if (_.isObject(this) &&
-        _.isString(this.category) &&
-        !FILTERS.is(this.category, 'i')) {
+    if (this::calcFilter(callback, 'i')) {
       return [''];
     }
-    return [`%c${sfmt('[INFO] %s', sfmt(callback()))}`, 'color:DarkGreen;font-size:1.05em;'];
+    return [`%c${sfmt('[INFO] %s', sfmt(this::calcInput(callback)))}`, 'color:DarkGreen;font-size:1.05em;'];
   },
   w(callback){
-    if (_.isObject(this) &&
-        _.isString(this.category) &&
-        !FILTERS.is(this.category, 'w')) {
+    if (this::calcFilter(callback, 'w')) {
       return [''];
     }
-    return [`%c${sfmt('[WARN] %s', sfmt(callback()))}`, 'color:OrangeRed;font-size:1.1em;'];
+    return [`%c${sfmt('[WARN] %s', sfmt(this::calcInput(callback)))}`, 'color:OrangeRed;font-size:1.1em;'];
   },
   e(callback){
-    if (_.isObject(this) &&
-        _.isString(this.category) &&
-        !FILTERS.is(this.category, 'e')) {
+    if (this::calcFilter(callback, 'e')) {
       return [''];
     }
-    return [`%c${sfmt('[ERROR] %s', sfmt(callback()))}`, 'color:red;font-size:1.15em;'];
+    return [`%c${sfmt('[ERROR] %s', sfmt(this::calcInput(callback)))}`, 'color:red;font-size:1.15em;'];
   }
 };
-// Categories
-const CATEGORIES = {};
-for (const [catCode, catName] of Object.entries(configJson.categories)) {
-  CATEGORIES[catCode] = function(...args){
-    return Reflect.apply(this, {'category': catCode}, [() => sfmt('[%s] %s', catName, sfmt(...args))]);
-  };
-}
-for (const [level, levelHandle] of Object.entries(LEVELS)) { // Levels
-  LEVELS[level] = Object.freeze(Object.assign(levelHandle, CATEGORIES));
-}
-const sfmtWrapper = __context.__simpleLogFormat__ = Object.freeze(Object.assign(sfmt, LEVELS));
+const sfmtWrapper = __context.__simpleLogFormat__ = Object.freeze(_.extendOwn(sfmt, LEVELS));
 export {
   sfmtWrapper as sfmt,
   sfmtWrapper as default
 };
+const loggerCache = new Map();
+export function getCategory(...args1){
+  if (getCategory.initialized !== true) {
+    Object.defineProps(getCategory, {
+      'initialized': true,
+      [Symbol.hasInstance](obj){
+        return obj::Object.prototype.toString() === '[object GetCategory]';
+      }
+    }, {'enumerable': false, 'configurable': false, 'writable': false});
+  }
+  const cacheKey = JSON.stringify(args1);
+  if (loggerCache.has(cacheKey)) {
+    return loggerCache.get(cacheKey);
+  }
+  const symbol = args1.join(' > ');
+  const logger = Object.produce({
+    [Symbol.toStringTag]: 'GetCategory',
+    get 'symbol'(){
+      return symbol;
+    },
+    'getCategory': (...args2) => getCategory(...args1, ...args2)
+  }, (...args) => ({
+    '_value': null,
+    get 'value'(){
+      if (this._value != null) {
+        return this._value;
+      }
+      let msg;
+      if (args.length === 1) {
+        msg = sfmt('%s', args[0]);
+      } else if (args.length > 1) {
+        msg = sfmt(...args);
+      }
+      this._value = `[${symbol}] - ${msg}`;
+      return this._value;
+    },
+    get 'symbol'(){
+      return symbol;
+    },
+    get 'length'(){
+      return this.value.length;
+    },
+    substring(...args){
+      return this.value.substring(...args);
+    },
+    *[Symbol.iterator](){
+      yield* this.value;
+    },
+    [Symbol.toStringTag]: 'GetCategory',
+    [Symbol.match](...args){
+      return this.value.match(...args);
+    },
+    [Symbol.replace](...args){
+      return this.value.replace(...args);
+    },
+    [Symbol.search](...args){
+      return this.value.search(...args);
+    },
+    [Symbol.split](...args){
+      return this.value.split(...args);
+    },
+    [Symbol.toPrimitive](){
+      return this.value;
+    }
+  }));
+  loggerCache.set(cacheKey, logger);
+  return logger;
+}

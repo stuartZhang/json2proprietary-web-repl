@@ -1,3 +1,4 @@
+import {getCategory} from './utils/simpleLogger';
 import JSONEditor from 'jsoneditor';
 const selPayload = document.querySelector('form[name=query] select[name=req-payload]');
 const btnSend = document.querySelector('form[name=query] button[name=send]');
@@ -13,7 +14,12 @@ selPayload.addEventListener('change', () => {
   txtPayload.value = script.textContent;
 });
 btnSend.addEventListener('click', async () => {
-  MACRO_LOG_DEBUG [idbm] 'Click'
+  const $l = getCategory('Click Send');
+  const body = JSON.stringify({
+    'iden': JSON.parse(txtIden.value),
+    'payload': JSON.parse(txtPayload.value)
+  });
+  MACRO_LOG_DEBUG $l('send %s', body)
   jsonEditor.set({});
   const res = await fetch('/lbs-api-repl', {
     'method': 'POST',
@@ -21,10 +27,7 @@ btnSend.addEventListener('click', async () => {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }),
-    'body': JSON.stringify({
-      'iden': JSON.parse(txtIden.value),
-      'payload': JSON.parse(txtPayload.value)
-    })
+    body
   }).then(res => res.json());
   jsonEditor.set(res);
   jsonEditor.expandAll();
